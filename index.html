@@ -445,22 +445,25 @@
             contents: [{
               role: "user",
               parts: [{
-                text: `You are an expert JSON parser. 
-From the user query, extract table names and column names. 
-Output JSON in the exact format:
+               text: `You are an expert JSON parser. 
+From the user query, extract the intent (main action the user wants), table names, and column names.
+Output JSON in this exact format:
 
 {
+  "intent": "<detected intent phrase like 'find reports' or 'find codebase'>",
   "tables": ["list", "of", "tables"],
   "columns": ["list", "of", "columns"]
 }
 
 Rules:
-- Always return BOTH keys ("tables" and "columns").
-- If no tables are mentioned, return "tables": [].
-- If no columns are mentioned, return "columns": [].
-- Return only valid JSON, no explanations or extra text.
+- Always return ALL three fields: intent, tables, columns.
+- If no table mentioned, return "tables": [].
+- If no column mentioned, return "columns": [].
+- intent should be a short phrase exactly reflecting the action (e.g., "find reports", "find codebase", "get rows" or any other mentioned in query).
+- Return ONLY valid JSON, no explanations or extra text.
 
 User Query: "${query}"`
+
 
 
              
@@ -561,3 +564,4 @@ User Query: "${query}"`
 </body>
 
 </html>
+
