@@ -446,17 +446,22 @@
               role: "user",
               parts: [{
                 text: `You are an expert JSON parser. 
-From the user query, extract ONLY ONE of the following:
-1. If the query refers to a table, return JSON of the form:
-   { "type": "table", "name": "<table_name>" }
-2. If the query refers to a column, return JSON of the form:
-   { "type": "column", "name": "<column_name>" }
+From the user query, extract table names and column names. 
+Output JSON in the exact format:
+
+{
+  "tables": ["list", "of", "tables"],
+  "columns": ["list", "of", "columns"]
+}
 
 Rules:
-- Always return ONLY valid JSON.
-- Never include extra text, explanations, or multiple objects.
-- If both table and column appear, choose only the main one the user is directly asking for.
+- Always return BOTH keys ("tables" and "columns").
+- If no tables are mentioned, return "tables": [].
+- If no columns are mentioned, return "columns": [].
+- Return only valid JSON, no explanations or extra text.
+
 User Query: "${query}"`
+
 
              
               }]
@@ -554,4 +559,5 @@ User Query: "${query}"`
     };
   </script>
 </body>
+
 </html>
